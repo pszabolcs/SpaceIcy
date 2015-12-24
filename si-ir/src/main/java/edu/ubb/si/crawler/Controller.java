@@ -1,5 +1,6 @@
 package edu.ubb.si.crawler;
 
+import edu.ubb.si.model.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,38 +10,86 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
+import javax.print.Doc;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by csanad on 12/13/15.
  */
 public class Controller {
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
 
-    public static void main(String[] args) throws Exception {
+    private Map<String, Document> imageDocuments;
 
-        int numberOfCrawlers = 7;
+    private int numberOfCrawlers;
+
+    private String storageFolder;
+
+    private int maxDepthOfCrawling;
+
+    private int maxPagesToFetch;
+
+
+    public Controller()
+    {
+        imageDocuments = new HashMap<String, Document>();
+        numberOfCrawlers = 1;
+        storageFolder = "CrawlerFolder";
+        maxDepthOfCrawling = 1;
+        maxPagesToFetch = 10;
+    }
+
+    public Controller(Map<String, Document> imageDocuments, int numberOfCrawlers, String storageFolder, int maxDepthOfCrawling, int maxPagesToFetch) {
+        this.imageDocuments = imageDocuments;
+        this.numberOfCrawlers = numberOfCrawlers;
+        this.storageFolder = storageFolder;
+        this.maxDepthOfCrawling = maxDepthOfCrawling;
+        this.maxPagesToFetch = maxPagesToFetch;
+    }
+
+    public void setMaxPagesToFetch(int maxPagesToFetch) {
+        this.maxPagesToFetch = maxPagesToFetch;
+    }
+
+    public void setMaxDepthOfCrawling(int maxDepthOfCrawling) {
+        this.maxDepthOfCrawling = maxDepthOfCrawling;
+    }
+
+    public void setStorageFolder(String storageFolder) {
+        this.storageFolder = storageFolder;
+    }
+
+    public void setNumberOfCrawlers(int numberOfCrawlers) {
+        this.numberOfCrawlers = numberOfCrawlers;
+    }
+
+    public Map<String, Document> getImageDocuments() {
+        return imageDocuments;
+    }
+
+
+    public void fetchPage(String url) throws Exception {
 
         CrawlConfig config = new CrawlConfig();
-        config.setMaxDepthOfCrawling(3);
-        config.setCrawlStorageFolder("/home/csanad/Documents/CrawlerDoc");
-        config.setMaxPagesToFetch(10);
+        config.setMaxDepthOfCrawling(maxDepthOfCrawling);
+        config.setCrawlStorageFolder(storageFolder);
+        config.setMaxPagesToFetch(maxPagesToFetch);
 
-    /*
-     * Since images are binary content, we need to set this parameter to
-     * true to make sure they are included in the crawl.
-     */
-        String[] crawlDomains = {"http://www.wareable.com"};
+        String[] crawlDomains = {url};
 
         PageFetcher pageFetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+
         for (String domain : crawlDomains) {
             controller.addSeed(domain);
         }
 
         ImageCrawler.configure(crawlDomains);
 
-        System.out.println("Starting the crawler");
+        logger.info("ImageController", "ImageCrawler is started!");
         controller.start(ImageCrawler.class, numberOfCrawlers);
     }
 }

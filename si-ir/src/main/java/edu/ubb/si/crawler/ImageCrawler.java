@@ -1,11 +1,11 @@
 package edu.ubb.si.crawler;
 
+import edu.ubb.si.model.Document;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
@@ -59,7 +59,8 @@ public class ImageCrawler extends WebCrawler {
                 + "(.{1," + Integer.toString(contextLength)+ "})";
 
         String url = page.getWebURL().getURL();
-        Document doc = null;
+
+        org.jsoup.nodes.Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
 
@@ -75,7 +76,20 @@ public class ImageCrawler extends WebCrawler {
 
             while (matcher.find())
             {
-                logger.info(matcher.group(2) + " --->  " + matcher.group(1) + " -- " + matcher.group(3));
+                String imgTag = matcher.group(2);
+                String imgContext = matcher.group(1) + " " + matcher.group(3);
+                logger.info(imgTag + " - " + imgContext);
+
+                org.jsoup.nodes.Document imgDoc = Jsoup.parse(imgTag);
+                Elements imgElement = imgDoc.getElementsByTag("img");
+
+                Document newDocument = new Document(
+                                            imgElement.attr("src"),
+                                            imgElement.attr("alt"),
+                                            imgContext);
+
+                //TODO - Adding the documents to the map!!!
+
             }
         } catch (IOException e) {
             logger.warn("Can't connect to url: " + url + ". Skipped!");
