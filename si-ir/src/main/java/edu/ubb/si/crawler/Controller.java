@@ -1,18 +1,17 @@
 package edu.ubb.si.crawler;
 
-import edu.ubb.si.model.Document;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.ubb.si.model.Document;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
-
-import javax.print.Doc;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by csanad on 12/13/15.

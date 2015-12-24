@@ -1,20 +1,19 @@
 package edu.ubb.si.crawler;
 
-import edu.ubb.si.model.Document;
-import edu.uci.ics.crawler4j.crawler.Page;
-import edu.uci.ics.crawler4j.crawler.WebCrawler;
-import edu.uci.ics.crawler4j.parser.HtmlParseData;
-import edu.uci.ics.crawler4j.url.WebURL;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
-import org.jsoup.select.NodeVisitor;
-
 import java.io.IOException;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.solr.client.solrj.SolrServerException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Node;
+import org.jsoup.select.Elements;
+
+import edu.ubb.si.model.Document;
+import edu.ubb.si.solr.DocumentManager;
+import edu.uci.ics.crawler4j.crawler.Page;
+import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.url.WebURL;
 
 /**
  * Created by csanad on 12/13/15.
@@ -25,6 +24,8 @@ public class ImageCrawler extends WebCrawler {
             .compile(".*(\\.(css|js|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" + "|bmp|gif|jpe?g|png|tiff?" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
     private static String[] crawlDomains;
+    
+    private DocumentManager documentManager = new DocumentManager();
 
     public static void configure(String[] domain) {
         crawlDomains = domain;
@@ -87,12 +88,14 @@ public class ImageCrawler extends WebCrawler {
                                             imgElement.attr("src"),
                                             imgElement.attr("alt"),
                                             imgContext);
-
+                
+                documentManager.addDocument(newDocument);
                 //TODO - Adding the documents to the map!!!
 
             }
-        } catch (IOException e) {
-            logger.warn("Can't connect to url: " + url + ". Skipped!");
+        } catch (IOException | SolrServerException e) {
+            //logger.warn("Can't connect to url: " + url + ". Skipped!");
+        	logger.error("Error: " + e.getMessage());
         }
     }
 
