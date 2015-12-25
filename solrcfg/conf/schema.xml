@@ -47,12 +47,14 @@
                 <filter class="solr.LowerCaseFilterFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords/stopwords_ro.txt, stopwords/stopwords_hu.txt,
                 stopwords/stopwords_en.txt"/>
+                <filter class="solr.ASCIIFoldingFilterFactory"/> 
             </analyzer>
             <analyzer type="query">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
                 <filter class="solr.LowerCaseFilterFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords/stopwords_ro.txt, stopwords/stopwords_hu.txt,
                 stopwords/stopwords_en.txt"/>
+                <filter class="solr.ASCIIFoldingFilterFactory" /> 
             </analyzer>
         </fieldType>
         
@@ -62,12 +64,14 @@
                 <filter class="solr.LowerCaseFilterFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords/stopwords_ro.txt, stopwords/stopwords_hu.txt,
                 stopwords/stopwords_en.txt"/>
+                <filter class="solr.ASCIIFoldingFilterFactory"/> 
             </analyzer>
             <analyzer type="query">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
                 <filter class="solr.LowerCaseFilterFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords/stopwords_ro.txt, stopwords/stopwords_hu.txt,
                 stopwords/stopwords_en.txt"/>
+                <filter class="solr.ASCIIFoldingFilterFactory"/> 
             </analyzer>
         </fieldType>
         
@@ -79,12 +83,14 @@
                 <filter class="solr.LowerCaseFilterFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords/stopwords_ro.txt, stopwords/stopwords_hu.txt,
                 stopwords/stopwords_en.txt"/>
+                <filter class="solr.ASCIIFoldingFilterFactory"/> 
             </analyzer>
             <analyzer type="query">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
                 <filter class="solr.LowerCaseFilterFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords/stopwords_ro.txt, stopwords/stopwords_hu.txt,
                 stopwords/stopwords_en.txt"/>
+                <filter class="solr.ASCIIFoldingFilterFactory"/> 
             </analyzer>
         </fieldType>
     </types>
