@@ -2,7 +2,9 @@ package edu.ubb.si.solr;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -42,20 +44,29 @@ public class DocumentManager {
 		}
 	}
 	
-	public List<String> processQuery(String query) throws SolrServerException, IOException {
-		String qStr = "image_name:" + query + " OR caption:" + query + " OR html_context:" + query;
-		
-		SolrQuery q = new SolrQuery(qStr);
+	public List<Document> processQuery(String query) throws SolrServerException, IOException {
+		SolrQuery q = new SolrQuery();
+		q.setQuery(query);
+		q.setParam("defType", "edismax");
+		q.setParam("qf", "image_name^40 caption^40 html_context^20");
 		q.setRows(100);
 		QueryResponse res = client.query(q);
 		SolrDocumentList list = res.getResults();
 		
-		List<String> resultUrls = new ArrayList<String>();
+		LinkedHashSet<Document> result = new LinkedHashSet<Document>();
 		
 		for (SolrDocument doc : list) {
-			resultUrls.add((String) doc.getFieldValue("url"));
+			Document document = new Document(
+						(String) doc.getFieldValue("url"),
+						(String) doc.getFieldValue("caption"),
+						(String) doc.getFieldValue("html_context")
+					);
+					
+			document.setUid(UUID.fromString((String) doc.getFieldValue("uid")));
+			
+			result.add(document);
 		}
 		
-		return resultUrls;
+		return new ArrayList<Document>(result);
 	}
 }

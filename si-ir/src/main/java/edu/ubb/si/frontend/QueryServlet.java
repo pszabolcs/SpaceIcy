@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.solr.client.solrj.SolrServerException;
 
+import edu.ubb.si.model.Document;
 import edu.ubb.si.solr.DocumentManager;
 
 /**
@@ -41,10 +42,11 @@ public class QueryServlet extends HttpServlet {
 		out.println("<body>");
 		
 		try {
-			List<String> result = manager.processQuery(queryStr);
+			List<Document> result = manager.processQuery(queryStr);
 			
-			for (String url : result) {
-				out.println("<img src=\"" + url + "\"/>");
+			for (Document doc : result) {
+				out.println("<p>" + doc.getCaption() + "</p>");
+				out.println("<img src=\"" + doc.getUrl() + "\"/><br/>");
 			}
 		} catch (SolrServerException e) {
 			e.printStackTrace();

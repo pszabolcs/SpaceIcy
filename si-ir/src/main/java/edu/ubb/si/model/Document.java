@@ -20,6 +20,24 @@ public class Document {
 	public Document() {
 		this("", "", "");
 	}
+
+	@Override
+	public int hashCode() {
+		return url.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		
+		if (!(obj instanceof Document)) {
+			return false;
+		}
+		
+		return hashCode() == obj.hashCode();
+	}
 	
 	public UUID getUid() {
 		return uid;

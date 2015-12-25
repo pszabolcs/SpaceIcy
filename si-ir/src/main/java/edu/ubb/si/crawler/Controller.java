@@ -33,7 +33,7 @@ public class Controller {
     public Controller()
     {
         imageDocuments = new HashMap<String, Document>();
-        numberOfCrawlers = 1;
+        numberOfCrawlers = 10;
         storageFolder = "CrawlerFolder";
         maxDepthOfCrawling = 1;
         maxPagesToFetch = 10;
