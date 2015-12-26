@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head />
+<h:form >
+	<p:messages id="messages" showDetail="true" autoUpdate="true"
+		closable="true" />
+	<p:tabMenu id="tabMenu" activeIndex="#{tabMenu.index}">
+		<p:menuitem value="Query" />
+		<p:menuitem value="Index more images"
+			action="#{navigationController.moveToIndexImg}" />
+	</p:tabMenu>
+
+	<h:panelGrid id="grid" columns="2" cellpadding="5">
+		<p:inputText id="queryStr" value="#{queryRequest.queryStr}" />
+		<p:commandButton value="Search" process="@parent:@parent"
+			update="@form" actionListener="#{queryRequest.getResultsForQuery}"
+			icon="ui-icon-circle-check" style="margin-right:10px" />
+	</h:panelGrid>
+
+	<p:dataGrid var="res" value="#{queryRequest.results}" columns="3"
+		layout="grid" rows="12" paginator="true" id="resul"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="6,12,16" style="text-align: center">
+
+		<f:facet name="header">
+            Resulted images
+        </f:facet>
+
+		<p:column >
+			<h:panelGrid columns="1" style="width:100%">
+				<p:graphicImage url="#{res.url}" style="horizontal-align: middle;"/>
+				<p:outputLabel value="#{res.caption}" />
+			</h:panelGrid>
+		</p:column>
+
+	</p:dataGrid>
+</h:form>
+
+</html>

@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head />
+<h:form style="width:500px;">
+	<p:messages id="messages" showDetail="true" autoUpdate="true"
+		closable="true" />
+	<p:tabMenu id="tabMenu" activeIndex="#{tabMenu.index}">
+		<p:menuitem value="Query" action="#{navigationController.moveToQuery}" />
+		<p:menuitem value="Index more images" />
+	</p:tabMenu>
+
+	<h:panelGrid id="grid" columns="2" cellpadding="5">
+		<p:outputLabel for="url" value="Url:" style="font-weight:bold" />
+		<p:inputText id="url" value="#{indexingRequest.url}" label="url" />
+
+		<p:outputLabel for="storage" value="Where to store on disk:" />
+		<p:inputText id="storage" value="#{indexingRequest.storage}"
+			label="storage" />
+
+		<p:outputLabel for="maxpages"
+			value="Maximum number of pages to fetch:" />
+		<p:inputText id="maxpages" value="#{indexingRequest.maxpages}"
+			label="maxpages" />
+
+		<p:outputLabel for="maxdepth" value="Maximum depth of iteration:" />
+		<p:inputText id="maxdepth" value="#{indexingRequest.maxdepth}"
+			label="maxdepth" />
+	</h:panelGrid>
+	<p:commandButton value="Index images" update="grid"
+		actionListener="#{indexingRequest.fetchPages}"
+		icon="ui-icon-circle-check" style="margin-right:10px" />
+</h:form>
+</html>
