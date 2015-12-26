@@ -3,8 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head />
-<h:form >
+<h:head ><h:graphicImage library="images" name="logo.png" /></h:head>
+<h:form id="form1">
 	<p:messages id="messages" showDetail="true" autoUpdate="true"
 		closable="true" />
 	<p:tabMenu id="tabMenu" activeIndex="#{tabMenu.index}">
@@ -15,13 +15,14 @@
 
 	<h:panelGrid id="grid" columns="2" cellpadding="5">
 		<p:inputText id="queryStr" value="#{queryRequest.queryStr}" />
-		<p:commandButton value="Search" process="@parent:@parent"
-			update="@form" actionListener="#{queryRequest.getResultsForQuery}"
-			icon="ui-icon-circle-check" style="margin-right:10px" />
+		<p:commandButton value="Search"
+			actionListener="#{queryRequest.getResultsForQuery}" update="form1"
+			icon="ui-icon-search" style="margin-right:10px" />
 	</h:panelGrid>
 
-	<p:dataGrid var="res" value="#{queryRequest.results}" columns="3"
-		layout="grid" rows="12" paginator="true" id="resul"
+	<p:dataGrid var="res" value="#{queryRequest.results}"
+		rendered="#{queryRequest.visible}" columns="3" layout="grid" rows="12"
+		paginator="true" id="resul"
 		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		rowsPerPageTemplate="6,12,16" style="text-align: center">
 
@@ -29,9 +30,9 @@
             Resulted images
         </f:facet>
 
-		<p:column >
+		<p:column>
 			<h:panelGrid columns="1" style="width:100%">
-				<p:graphicImage url="#{res.url}" style="horizontal-align: middle;"/>
+				<p:graphicImage url="#{res.url}" style="horizontal-align: middle;" />
 				<p:outputLabel value="#{res.caption}" />
 			</h:panelGrid>
 		</p:column>

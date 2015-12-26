@@ -1,9 +1,9 @@
 package edu.ubb.si.frontend.beans;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
-@RequestScoped
+@SessionScoped
 @ManagedBean(name = "tabMenu")
 public class TabMenuBean {
 	

@@ -11,6 +11,11 @@ import org.apache.solr.client.solrj.SolrServerException;
 import edu.ubb.si.model.Document;
 import edu.ubb.si.solr.DocumentManager;
 
+/**
+ * 
+ * @author bordie
+ *
+ */
 @RequestScoped
 @ManagedBean(name = "queryRequest")
 public class QueryRequestBean {
@@ -19,6 +24,7 @@ public class QueryRequestBean {
 	
 	private DocumentManager manager;
 	private String queryStr;
+	private boolean visible = false;
 	private List<Document> results;
 	
 	public QueryRequestBean() {
@@ -41,13 +47,21 @@ public class QueryRequestBean {
 		this.results = result;
 	}
 	
+	public boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+	
 	public String getResultsForQuery() {
 		try {
 			setResults(manager.processQuery(queryStr));
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 		}
-		
+		setVisible(true);
 		return EMPTY_STRING;
 	}
 
