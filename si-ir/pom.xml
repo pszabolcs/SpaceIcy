@@ -15,53 +15,66 @@
 		<java.target>1.8</java.target>
 
 		<javaee.version>7.0</javaee.version>
+		
+        <servlet.version>3.0.1</servlet.version>
+        <jsf.version>2.2.2</jsf.version>
+        <primefaces.version>5.2</primefaces.version>
+        <crawler4j.version>4.1</crawler4j.version>
+        <solr.version>5.3.1</solr.version>
+        <jsoup.version>1.8.3</jsoup.version>
+        <slf4j.version>1.7.13</slf4j.version>
 	</properties>
 
 	<dependencies>
+		<!-- Servlet -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>5.2</version>
-		</dependency>
-		<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+        </dependency>
+        <!-- JSF -->
+        <dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>2.2.2</version>
+			<version>${jsf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<version>2.2.2</version>
+			<version>${jsf.version}</version>
 		</dependency>
+		<!-- Primefaces -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${primefaces.version}</version>
+		</dependency>
+		<!-- Crawler -->
 		<dependency>
 			<groupId>edu.uci.ics</groupId>
 			<artifactId>crawler4j</artifactId>
-			<version>4.1</version>
+			<version>${crawler4j.version}</version>
 		</dependency>
+		<!-- Indexing engine: Solr -->
 		<dependency>
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-solrj</artifactId>
-			<version>5.3.1</version>
+			<version>${solr.version}</version>
 		</dependency>
 		<dependency>
-			<!-- jsoup HTML parser library @ http://jsoup.org/ -->
+		<!-- jsoup HTML parser library @ http://jsoup.org/ -->
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.8.3</version>
+			<version>${jsoup.version}</version>
 		</dependency>
+		<!-- SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.13</version>
+			<version>${slf4j.version}</version>
 		</dependency>
-
-
 	</dependencies>
+	
 	<build>
 		<finalName>si-ir</finalName>
 
