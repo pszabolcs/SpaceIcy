@@ -19,11 +19,19 @@ import edu.ubb.si.model.Document;
 
 public class DocumentManager {
 
-	private SolrClient client;
+	private static final String SERVER = "http://localhost:8983/solr/";
+	private static final String CORE_EN = "collections_en";
+	private static final String CORE_HU = "collections_hu";
+	private static final String CORE_RO = "collections_ro";
+	
+	private SolrClient clientEn;
+	private SolrClient clientHu;
+	private SolrClient clientRo;
 	
 	public DocumentManager() {
-		String server = "http://localhost:8983/solr/spaceicy";
-		client = new HttpSolrClient(server);
+		clientEn = new HttpSolrClient(SERVER + CORE_EN);
+		clientHu = new HttpSolrClient(SERVER + CORE_HU);
+		clientRo = new HttpSolrClient(SERVER + CORE_RO);
 	}
 	
 	public void addDocument(Document document) throws SolrServerException, IOException {
@@ -34,8 +42,14 @@ public class DocumentManager {
 		doc.addField("caption", document.getCaption());
 		doc.addField("html_context", document.getContext());	
 		
-		client.add(doc);
-		client.commit();
+		// save in all 3 shards 
+		//TODO: save according to HTML tag
+		clientEn.add(doc);
+		clientEn.commit();
+		clientHu.add(doc);
+		clientHu.commit();
+		clientRo.add(doc);
+		clientRo.commit();
 	}
 	
 	public void addDocuments(List<Document> documents) throws SolrServerException, IOException {
@@ -49,8 +63,10 @@ public class DocumentManager {
 		q.setQuery(query);
 		q.setParam("defType", "edismax");
 		q.setParam("qf", "image_name^40 caption^40 html_context^20");
+		// this parameter ensures the search is done in all 3 shards
+		q.setParam("shards", "shard_en_hu_ro");
 		q.setRows(100);
-		QueryResponse res = client.query(q);
+		QueryResponse res = clientEn.query(q);
 		SolrDocumentList list = res.getResults();
 		
 		LinkedHashSet<Document> result = new LinkedHashSet<Document>();
