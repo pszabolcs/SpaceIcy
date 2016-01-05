@@ -4,6 +4,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head ><h:graphicImage library="images" name="logo.png" /></h:head>
+
+<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+	<p:graphicImage name="/images/ajax-loader.gif" />
+</p:dialog>
+
+
 <h:form style="width:500px;">
 	<p:messages id="messages" showDetail="true" autoUpdate="true"
 		closable="true" />
