@@ -1,22 +1,21 @@
 package edu.ubb.si.frontend.beans;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-
-import org.apache.solr.client.solrj.SolrServerException;
-
 import edu.ubb.si.model.Document;
 import edu.ubb.si.solr.DocumentManager;
+import org.apache.solr.client.solrj.SolrServerException;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 
  * @author bordie
  *
  */
-@RequestScoped
+
+@ViewScoped
 @ManagedBean(name = "queryRequest")
 public class QueryRequestBean {
 	
