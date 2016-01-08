@@ -81,7 +81,7 @@ public class DocumentManager {
 		q.setParam("defType", "edismax");
 		q.setParam("qf", "image_name^40 caption^40 html_context^20");
 		// this parameter ensures the search is done in all 3 shards
-		q.setParam("shards", "shard_en_hu_ro");
+		q.setParam("shards", SERVER + CORE_EN + "," + SERVER + CORE_HU + "," + SERVER + CORE_RO);
 		q.setRows(100);
 		QueryResponse res = clientEn.query(q);
 		SolrDocumentList list = res.getResults();
