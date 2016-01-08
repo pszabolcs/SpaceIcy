@@ -3,41 +3,46 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head ><h:graphicImage library="images" name="logo.png" /></h:head>
-<h:form id="form1">
-	<p:messages id="messages" showDetail="true" autoUpdate="true"
-		closable="true" />
-	<p:tabMenu id="tabMenu" activeIndex="#{tabMenu.index}">
-		<p:menuitem value="Query" />
-		<p:menuitem value="Index more images"
-			action="#{navigationController.moveToIndexImg}" />
-	</p:tabMenu>
+<h:head ><h:graphicImage library="images" name="logo.png"/></h:head>
+<h:body>
+	<div align="center">
 
-	<h:panelGrid id="grid" columns="2" cellpadding="5">
-		<p:inputText id="queryStr" value="#{queryRequest.queryStr}" />
-		<p:commandButton value="Search"
-			actionListener="#{queryRequest.getResultsForQuery}" update="form1"
-			icon="ui-icon-search" style="margin-right:10px" />
-	</h:panelGrid>
+		<h:form id="form1">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<p:tabMenu id="tabMenu" activeIndex="#{tabMenu.index}">
+				<p:menuitem value="Query" />
+				<p:menuitem value="Index more images"
+					action="#{navigationController.moveToIndexImg}" />
+			</p:tabMenu>
 
-	<p:dataGrid var="res" value="#{queryRequest.results}"
-		rendered="#{queryRequest.visible}" columns="3" layout="grid" rows="12"
-		paginator="true" id="resul"
-		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		rowsPerPageTemplate="6,12,16" style="text-align: center">
-
-		<f:facet name="header">
-            Resulted images
-        </f:facet>
-
-		<p:column>
-			<h:panelGrid columns="1" style="width:100%">
-				<p:graphicImage url="#{res.url}" style="horizontal-align: middle; max-width:400; max-height:300"  />
-				<p:outputLabel value="#{res.caption}" />
+			<h:panelGrid id="grid" columns="2" cellpadding="5">
+				<p:inputText id="queryStr" value="#{queryRequest.queryStr}" />
+				<p:commandButton value="Search"
+					actionListener="#{queryRequest.getResultsForQuery}" update="form1"
+					icon="ui-icon-search" style="margin-right:10px" />
 			</h:panelGrid>
-		</p:column>
 
-	</p:dataGrid>
-</h:form>
+			<p:dataGrid var="res" value="#{queryRequest.results}"
+				rendered="#{queryRequest.visible}" columns="3" layout="grid" rows="12"
+				paginator="true" id="resul"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16" style="text-align: center">
 
+				<f:facet name="header">
+					Resulted images
+				</f:facet>
+
+				<p:column>
+					<h:panelGrid columns="1" style="width:100%">
+						<p:graphicImage url="#{res.url}" style="horizontal-align: middle; max-width:400; max-height:300"  />
+						<p:outputLabel value="#{res.caption}" />
+					</h:panelGrid>
+				</p:column>
+
+			</p:dataGrid>
+		</h:form>
+
+	</div>
+</h:body>
 </html>

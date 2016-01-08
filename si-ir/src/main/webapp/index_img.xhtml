@@ -3,42 +3,48 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head ><h:graphicImage library="images" name="logo.png" /></h:head>
+<h:head ><h:graphicImage library="images" name="logo.png"/></h:head>
 
-<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+<h:body>
+	<div align="center">
 
-<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-	<p:graphicImage name="/images/ajax-loader.gif" />
-</p:dialog>
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+			<p:graphicImage name="/images/ajax-loader.gif" />
+		</p:dialog>
 
 
-<h:form style="width:500px;">
-	<p:messages id="messages" showDetail="true" autoUpdate="true"
-		closable="true" />
-	<p:tabMenu id="tabMenu" activeIndex="#{tabMenu.index}">
-		<p:menuitem value="Query" action="#{navigationController.moveToQuery}" />
-		<p:menuitem value="Index more images" />
-	</p:tabMenu>
+		<h:form >
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<p:tabMenu id="tabMenu" activeIndex="#{tabMenu.index}">
+				<p:menuitem value="Query" action="#{navigationController.moveToQuery}" />
+				<p:menuitem value="Index more images" />
+			</p:tabMenu>
 
-	<h:panelGrid id="grid" columns="2" cellpadding="5">
-		<p:outputLabel for="url" value="Url:" style="font-weight:bold" />
-		<p:inputText id="url" value="#{indexingRequest.url}" label="url" />
+			<h:panelGrid id="grid" columns="2" cellpadding="5">
+				<p:outputLabel for="url" value="Url:" style="font-weight:bold" />
+				<p:inputText id="url" value="#{indexingRequest.url}" label="url" />
 
-		<p:outputLabel for="storage" value="Where to store on disk:" />
-		<p:inputText id="storage" value="#{indexingRequest.storage}"
-			label="storage" />
+				<p:outputLabel for="storage" value="Where to store on disk:" />
+				<p:inputText id="storage" value="#{indexingRequest.storage}"
+					label="storage" />
 
-		<p:outputLabel for="maxpages"
-			value="Maximum number of pages to fetch:" />
-		<p:inputText id="maxpages" value="#{indexingRequest.maxpages}"
-			label="maxpages" />
+				<p:outputLabel for="maxpages"
+					value="Maximum number of pages to fetch:" />
+				<p:inputText id="maxpages" value="#{indexingRequest.maxpages}"
+					label="maxpages" />
 
-		<p:outputLabel for="maxdepth" value="Maximum depth of iteration:" />
-		<p:inputText id="maxdepth" value="#{indexingRequest.maxdepth}"
-			label="maxdepth" />
-	</h:panelGrid>
-	<p:commandButton value="Index images" update="grid"
-		actionListener="#{indexingRequest.fetchPages}"
-		icon="ui-icon-circle-check" style="margin-right:10px" />
-</h:form>
+				<p:outputLabel for="maxdepth" value="Maximum depth of iteration:" />
+				<p:inputText id="maxdepth" value="#{indexingRequest.maxdepth}"
+					label="maxdepth" />
+			</h:panelGrid>
+			<p:commandButton value="Index images" update="grid"
+				actionListener="#{indexingRequest.fetchPages}"
+				icon="ui-icon-circle-check" style="margin-right:10px" />
+		</h:form>
+
+	</div>
+</h:body>
 </html>
