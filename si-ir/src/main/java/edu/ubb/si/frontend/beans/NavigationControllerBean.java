@@ -2,9 +2,9 @@ package edu.ubb.si.frontend.beans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean(name = "navigationController")
 public class NavigationControllerBean {
 	
