@@ -37,7 +37,7 @@ public class AddDocumentServlet extends HttpServlet {
 		Document document = new Document(url, caption, context);
 		DocumentManager manager = new DocumentManager();
 		try {
-			manager.addDocument(document);
+			manager.addDocument(document, null);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

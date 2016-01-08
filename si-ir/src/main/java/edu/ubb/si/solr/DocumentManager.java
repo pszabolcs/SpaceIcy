@@ -34,27 +34,44 @@ public class DocumentManager {
 		clientRo = new HttpSolrClient(SERVER + CORE_RO);
 	}
 	
-	public void addDocument(Document document) throws SolrServerException, IOException {
-		
+	public void addDocument(Document document, String language) throws SolrServerException, IOException {
+
 		SolrInputDocument doc = new SolrInputDocument();
 		doc.addField("uid", document.getUid().toString());
 		doc.addField("url", document.getUrl());
 		doc.addField("caption", document.getCaption());
-		doc.addField("html_context", document.getContext());	
-		
-		// save in all 3 shards 
-		//TODO: save according to HTML tag
-		clientEn.add(doc);
-		clientEn.commit();
-		clientHu.add(doc);
-		clientHu.commit();
-		clientRo.add(doc);
-		clientRo.commit();
+		doc.addField("html_context", document.getContext());
+
+		if (language == null || language.matches("")) {
+			clientEn.add(doc);
+			clientEn.commit();
+			clientHu.add(doc);
+			clientHu.commit();
+			clientRo.add(doc);
+			clientRo.commit();
+		} else {
+			if (language.toLowerCase().matches("(.*)en(.*)")) {
+				clientEn.add(doc);
+				clientEn.commit();
+			}
+			if (language.toLowerCase().matches("(.*)ro(.*)")) {
+				clientRo.add(doc);
+				clientRo.commit();
+			}
+			if (language.toLowerCase().matches("(.*)hu(.*)")) {
+				clientHu.add(doc);
+				clientHu.commit();
+			}
+		}
 	}
 	
-	public void addDocuments(List<Document> documents) throws SolrServerException, IOException {
-		for (Document d: documents) {
-			addDocument(d);
+	public void addDocuments(List<Document> documents, List<String> languages) throws SolrServerException, IOException, ArrayIndexOutOfBoundsException{
+
+		if (documents.size() != languages.size()) {
+			new ArrayIndexOutOfBoundsException("Documents size and languages size has to be equal!");
+		} else {
+			for (int i = 0; i < documents.size(); ++i)
+				addDocument(documents.get(i), languages.get(i));
 		}
 	}
 	

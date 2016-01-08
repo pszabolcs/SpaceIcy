@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
@@ -50,7 +51,7 @@ public class ImageCrawler extends WebCrawler {
 
     @Override
     public void visit(Page page) {
-        int contextLength = 100;
+        int contextLength = 300;
 
         String patternHTMLTags = "\\<(?!img).*?>";
         String patternIMG = "\\<img.*?>";
@@ -61,9 +62,14 @@ public class ImageCrawler extends WebCrawler {
 
         String url = page.getWebURL().getURL();
 
+
+        String lang = null;
         org.jsoup.nodes.Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
+
+            Element html = doc.select("html").first();
+            lang = html.attr("lang");
 
             doc.select("script").remove();
             removeComments(doc);
@@ -84,13 +90,17 @@ public class ImageCrawler extends WebCrawler {
                 org.jsoup.nodes.Document imgDoc = Jsoup.parse(imgTag);
                 Elements imgElement = imgDoc.getElementsByTag("img");
 
+                //if the img src doesn't starts with http://
+                String imgSrc = imgElement.attr("src");
+                if (!imgSrc.startsWith("http://"))
+                    imgSrc = "http://" + imgSrc;
+
                 Document newDocument = new Document(
-                                            imgElement.attr("src"),
+                                            imgSrc,
                                             imgElement.attr("alt"),
                                             imgContext);
                 
-                documentManager.addDocument(newDocument);
-                //TODO - Adding the documents to the map!!!
+                documentManager.addDocument(newDocument, lang);
 
             }
         } catch (IOException | SolrServerException e) {
